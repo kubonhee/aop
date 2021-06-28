@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean class="com.capriberry.aop3.MyBefore" id="myBefore"></bean>
+	<bean class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor" id="aspectJExpressionPointcutAdvisor">
+		<property name="advice" ref="myBefore"/>
+		<property name="expression" value="execution(* hello(..))"/>
+	</bean>
+	
+	
+	<bean class="com.capriberry.aop3.MyBean" id="myBean1">
+		<property name="depndency">
+			<bean class="org.springframework.aop.framework.ProxyFactoryBean">
+				<property name="target">
+					<bean class="com.capriberry.aop3.MyDepndency"></bean>
+				</property>
+				<property name="interceptorNames">
+					<list>
+						<value>myBefore</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean class="com.capriberry.aop3.MyBean" id="myBean2">
+		<property name="depndency">
+			<bean class="org.springframework.aop.framework.ProxyFactoryBean">
+				<property name="target">
+					<bean class="com.capriberry.aop3.MyDepndency"></bean>
+				</property>
+				<property name="interceptorNames">
+					<list>
+						<value>myBefore</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+
+</beans>

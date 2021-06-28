@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd">
+
+	<bean class="com.capriberry.aop4.MyBean" id="myBean">
+		<property name="depndency">
+			<bean class="com.capriberry.aop4.MyDepndency"></bean>
+		</property>
+	</bean>
+	<bean class="com.capriberry.aop4.MyAdvice" id="myAdvice"></bean>
+	<aop:config>
+			<aop:pointcut expression="execution(* hello(..)) and args(val)" id="pc"/>
+		<aop:aspect ref="myAdvice">
+			<aop:before method="customBefore" pointcut-ref="pc"/>
+		</aop:aspect>
+		<aop:aspect ref="myAdvice">
+			<aop:around method="customAround" pointcut-ref="pc"/>
+		</aop:aspect>
+	</aop:config>
+</beans>
